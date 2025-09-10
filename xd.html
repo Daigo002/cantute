@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cantuta Peruana - Flor Nacional del Perú</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 30%, #2c5364 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #fff;
+    position: relative;
+  }
+
+  .floating-petals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .petal {
+    position: absolute;
+    width: 12px;
+    height: 20px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #d63031 100%);
+    border-radius: 60% 20% 60% 20%;
+    opacity: 0;
+    animation: floatPetal 15s infinite linear;
+    transform-origin: center;
+  }
+
+  @keyframes floatPetal {
+    0% {
+      transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.5);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.8;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(-20vh) translateX(200px) rotate(720deg) scale(1.2);
+      opacity: 0;
+    }
+  }
+
+  .container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 2rem;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffeaa7, #fab1a0, #fd79a8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    font-style: italic;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .flower-container {
+    position: relative;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%);
+    border-radius: 50%;
+    padding: 3rem;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  #cantuta-svg {
+    width: min(80vw, 600px);
+    height: min(80vw, 600px);
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+  }
+
+  .controls {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 20;
+  }
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(45deg, #e17055, #d63031);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(214, 48, 49, 0.3);
+    font-size: 0.9rem;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(214, 48, 49, 0.4);
+  }
+
+  .info {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    max-width: 80%;
+  }
+
+  .wind-sway {
+    animation: windSway 4s infinite ease-in-out;
+    transform-origin: bottom center;
+  }
+
+  @keyframes windSway {
+    0%, 100% { transform: rotate(0deg) translateX(0); }
+    25% { transform: rotate(1deg) translateX(3px); }
+    50% { transform: rotate(-0.5deg) translateX(-2px); }
+    75% { transform: rotate(0.8deg) translateX(2px); }
+  }
+
+  .petal-dance {
+    animation: petalDance 3s infinite ease-in-out;
+    transform-origin: center bottom;
+  }
+
+  @keyframes petalDance {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    33% { transform: scale(1.05) rotate(2deg); }
+    66% { transform: scale(0.98) rotate(-1deg); }
+  }
+
+  .stamen-wave {
+    animation: stamenWave 2.5s infinite ease-in-out;
+    transform-origin: bottom;
+  }
+
+  @keyframes stamenWave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  .fade-in {
+    animation: fadeIn 2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8) rotate(10deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  .glow {
+    filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.6));
+  }
+</style>
+</head>
+<body>
+  <div class="floating-petals" id="petals-container"></div>
+  
+  <div class="container">
+    <header>
+      <h1 class="title">🌺 Cantuta Peruana</h1>
+      <p class="subtitle">Cantua buxifolia - Flor Nacional del Perú</p>
+    </header>
+
+    <div class="controls">
+      <button class="btn" id="regenerate">🌸 Nueva Flor</button>
+      <button class="btn" id="toggle-petals">❄️ Pétalos</button>
+    </div>
+
+    <div class="main-content">
+      <div class="flower-container">
+        <svg id="cantuta-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- El contenido se genera dinámicamente -->
+        </svg>
+      </div>
+    </div>
+
+    <div class="info">
+      <p><strong>La Cantuta</strong> es considerada la flor sagrada de los Incas y símbolo nacional del Perú. Sus flores tubulares colgantes de color rojo intenso y garganta amarilla la hacen única en los Andes.</p>
+    </div>
+  </div>
+
+<script>
+(function() {
+  const svg = document.getElementById('cantuta-svg');
+  const regenerateBtn = document.getElementById('regenerate');
+  const petalsBtn = document.getElementById('toggle-petals');
+  const petalsContainer = document.getElementById('petals-container');
+  
+  let petalsActive = true;
+  let animationId = 0;
+
+  // Crear pétalos flotantes
+  function createFloatingPetals() {
+    for (let i = 0; i < 25; i++) {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.style.left = Math.random() * 100 + '%';
+      petal.style.animationDelay = Math.random() * 15 + 's';
+      petal.style.animationDuration = (12 + Math.random() * 6) + 's';
+      
+      // Variaciones en la forma del pétalo
+      const hue = 350 + Math.random() * 20;
+      petal.style.background = `linear-gradient(135deg, hsl(${hue}, 80%, 65%) 0%, hsl(${hue-10}, 85%, 55%) 50%, hsl(${hue-20}, 90%, 45%) 100%)`;
+      
+      petalsContainer.appendChild(petal);
+    }
+  }
+
+  function togglePetals() {
+    petalsActive = !petalsActive;
+    petalsContainer.style.display = petalsActive ? 'block' : 'none';
+    petalsBtn.textContent = petalsActive ? '❄️ Pétalos' : '🌸 Pétalos';
+  }
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createGradients() {
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    
+    // Gradiente del tubo de la cantuta
+    const tubeGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    tubeGradient.id = 'tubeGradient';
+    tubeGradient.setAttribute('x1', '0%');
+    tubeGradient.setAttribute('y1', '0%');
+    tubeGradient.setAttribute('x2', '100%');
+    tubeGradient.setAttribute('y2', '100%');
+    
+    const hue = random(345, 360);
+    const stops = [
+      { offset: '0%', color: `hsl(${hue}, 85%, 60%)` },
+      { offset: '30%', color: `hsl(${hue-5}, 90%, 55%)` },
+      { offset: '70%', color: `hsl(${hue-10}, 95%, 50%)` },
+      { offset: '100%', color: `hsl(${hue-15}, 95%, 45%)` }
+    ];
+
+    stops.forEach(stop => {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      s.setAttribute('offset', stop.offset);
+      s.setAttribute('stop-color', stop.color);
+      tubeGradient.appendChild(s);
+    });
+
+    // Gradiente para la garganta (amarillo dorado)
+    const throatGradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+    throatGradient.id = 'throatGradient';
+    throatGradient.setAttribute('cx', '50%');
+    throatGradient.setAttribute('cy', '50%');
+    throatGradient.setAttribute('r', '50%');
+    
+    const throatStops = [
+      { offset: '0%', color: '#ffeaa7' },
+      { offset: '50%', color: '#fdcb6e' },
+      { offset: '100%', color: '#e17055' }
+    ];
+
+    throatStops.forEach(stop => {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      s.setAttribute('offset', stop.offset);
+      s.setAttribute('stop-color', stop.color);
+      throatGradient.appendChild(s);
+    });
+
+    // Gradiente para hojas
+    const leafGradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    leafGradient.id = 'leafGradient';
+    leafGradient.setAttribute('x1', '0%');
+    leafGradient.setAttribute('y1', '0%');
+    leafGradient.setAttribute('x2', '100%');
+    leafGradient.setAttribute('y2', '100%');
+    
+    const leafStops = [
+      { offset: '0%', color: `hsl(${random(120, 140)}, 60%, 45%)` },
+      { offset: '50%', color: `hsl(${random(110, 130)}, 55%, 35%)` },
+      { offset: '100%', color: `hsl(${random(100, 120)}, 50%, 25%)` }
+    ];
+
+    leafStops.forEach(stop => {
+      const s = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      s.setAttribute('offset', stop.offset);
+      s.setAttribute('stop-color', stop.color);
+      leafGradient.appendChild(s);
+    });
+
+    defs.appendChild(tubeGradient);
+    defs.appendChild(throatGradient);
+    defs.appendChild(leafGradient);
+    return defs;
+  }
+
+  function createCantutaFlower() {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.classList.add('fade-in', 'wind-sway');
+    
+    // Tallo principal
+    const stem = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const stemPath = `M 200 380 C 200 320 ${190 + random(-20, 20)} 250 ${200 + random(-15, 15)} 150`;
+    stem.setAttribute('d', stemPath);
+    stem.setAttribute('stroke', `hsl(${random(100, 120)}, 50%, 30%)`);
+    stem.setAttribute('stroke-width', '8');
+    stem.setAttribute('stroke-linecap', 'round');
+    stem.setAttribute('fill', 'none');
+    g.appendChild(stem);
+
+    // Hojas
+    const numLeaves = Math.floor(random(3, 5));
+    for (let i = 0; i < numLeaves; i++) {
+      const leaf = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const y = 300 - i * 40 + random(-15, 15);
+      const x = 200 + random(-25, 25);
+      const side = i % 2 === 0 ? 1 : -1;
+      const leafSize = random(25, 35);
+      
+      const leafPath = [
+        `M ${x} ${y}`,
+        `C ${x + side * leafSize} ${y - 10}`,
+        `${x + side * leafSize} ${y - leafSize + 10}`,
+        `${x} ${y - leafSize}`,
+        `C ${x - side * leafSize * 0.3} ${y - leafSize + 10}`,
+        `${x - side * leafSize * 0.3} ${y - 10}`,
+        `${x} ${y} Z`
+      ].join(' ');
+      
+      leaf.setAttribute('d', leafPath);
+      leaf.setAttribute('fill', 'url(#leafGradient)');
+      leaf.setAttribute('stroke', `hsl(120, 40%, 20%)`);
+      leaf.setAttribute('stroke-width', '1.5');
+      leaf.classList.add('wind-sway');
+      leaf.style.animationDelay = `${i * 0.3}s`;
+      g.appendChild(leaf);
+    }
+
+    // Grupo de flores (1-3 flores)
+    const numFlowers = Math.floor(random(1, 4));
+    for (let f = 0; f < numFlowers; f++) {
+      const flowerGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      const flowerX = 200 + random(-30, 30);
+      const flowerY = 120 + f * 25 + random(-10, 10);
+      
+      // Pedicelo (pequeño tallo de la flor)
+      const pedicel = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const curve = random(-10, 10);
+      pedicel.setAttribute('d', `M ${flowerX} ${flowerY + 20} Q ${flowerX + curve} ${flowerY + 10} ${flowerX} ${flowerY}`);
+      pedicel.setAttribute('stroke', `hsl(120, 40%, 35%)`);
+      pedicel.setAttribute('stroke-width', '3');
+      pedicel.setAttribute('fill', 'none');
+      flowerGroup.appendChild(pedicel);
+
+      // Cáliz (base verde de la flor)
+      const calyx = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      calyx.setAttribute('transform', `translate(${flowerX}, ${flowerY})`);
+      
+      for (let i = 0; i < 5; i++) {
+        const sepal = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const angle = i * 72 + random(-5, 5);
+        const sepalPath = `M 0 0 Q 8 -5 6 -15 Q 0 -12 0 0`;
+        sepal.setAttribute('d', sepalPath);
+        sepal.setAttribute('fill', `hsl(${random(110, 130)}, 60%, 40%)`);
+        sepal.setAttribute('stroke', `hsl(120, 50%, 25%)`);
+        sepal.setAttribute('stroke-width', '1');
+        sepal.setAttribute('transform', `rotate(${angle})`);
+        calyx.appendChild(sepal);
+      }
+      flowerGroup.appendChild(calyx);
+
+      // Tubo de la flor (la característica principal de la cantuta)
+      const tube = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const tubeLength = random(40, 55);
+      const tubeWidth = random(8, 12);
+      const mouthWidth = tubeWidth * random(1.5, 2);
+      
+      const tubePath = [
+        `M ${flowerX - tubeWidth/2} ${flowerY}`,
+        `C ${flowerX - tubeWidth/2} ${flowerY - tubeLength * 0.3}`,
+        `${flowerX - mouthWidth/2} ${flowerY - tubeLength * 0.8}`,
+        `${flowerX - mouthWidth/2} ${flowerY - tubeLength}`,
+        `L ${flowerX + mouthWidth/2} ${flowerY - tubeLength}`,
+        `C ${flowerX + mouthWidth/2} ${flowerY - tubeLength * 0.8}`,
+        `${flowerX + tubeWidth/2} ${flowerY - tubeLength * 0.3}`,
+        `${flowerX + tubeWidth/2} ${flowerY} Z`
+      ].join(' ');
+      
+      tube.setAttribute('d', tubePath);
+      tube.setAttribute('fill', 'url(#tubeGradient)');
+      tube.setAttribute('stroke', 'rgba(0,0,0,0.3)');
+      tube.setAttribute('stroke-width', '1');
+      tube.classList.add('glow');
+      flowerGroup.appendChild(tube);
+
+      // Pétalos en la boca del tubo
+      const petalGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      petalGroup.setAttribute('transform', `translate(${flowerX}, ${flowerY - tubeLength})`);
+      petalGroup.classList.add('petal-dance');
+      petalGroup.style.animationDelay = `${f * 0.5}s`;
+      
+      for (let i = 0; i < 5; i++) {
+        const petal = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const angle = i * 72 + random(-8, 8);
+        const petalLength = random(12, 18);
+        const petalWidth = random(6, 9);
+        
+        const petalPath = [
+          `M 0 0`,
+          `Q ${-petalWidth/2} ${-petalLength * 0.5}`,
+          `${-petalWidth/3} ${-petalLength}`,
+          `Q 0 ${-petalLength - 2}`,
+          `${petalWidth/3} ${-petalLength}`,
+          `Q ${petalWidth/2} ${-petalLength * 0.5} 0 0 Z`
+        ].join(' ');
+        
+        petal.setAttribute('d', petalPath);
+        petal.setAttribute('fill', 'url(#tubeGradient)');
+        petal.setAttribute('stroke', 'rgba(0,0,0,0.2)');
+        petal.setAttribute('stroke-width', '0.5');
+        petal.setAttribute('transform', `rotate(${angle})`);
+        petalGroup.appendChild(petal);
+      }
+      flowerGroup.appendChild(petalGroup);
+
+      // Garganta dorada
+      const throat = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      throat.setAttribute('cx', flowerX);
+      throat.setAttribute('cy', flowerY - tubeLength);
+      throat.setAttribute('r', mouthWidth * 0.35);
+      throat.setAttribute('fill', 'url(#throatGradient)');
+      throat.classList.add('glow');
+      flowerGroup.appendChild(throat);
+
+      // Estambres
+      const stamens = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      stamens.setAttribute('transform', `translate(${flowerX}, ${flowerY - tubeLength})`);
+      stamens.classList.add('stamen-wave');
+      stamens.style.animationDelay = `${f * 0.3}s`;
+      
+      const numStamens = Math.floor(random(4, 6));
+      for (let i = 0; i < numStamens; i++) {
+        const angle = (i / numStamens) * 360 + random(-10, 10);
+        const length = random(8, 15);
+        const x = Math.cos(angle * Math.PI / 180) * 2;
+        const y = -length;
+        
+        // Filamento
+        const filament = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        filament.setAttribute('x1', '0');
+        filament.setAttribute('y1', '0');
+        filament.setAttribute('x2', x);
+        filament.setAttribute('y2', y);
+        filament.setAttribute('stroke', '#8B4513');
+        filament.setAttribute('stroke-width', '1.5');
+        stamens.appendChild(filament);
+        
+        // Antera
+        const anther = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        anther.setAttribute('cx', x);
+        anther.setAttribute('cy', y);
+        anther.setAttribute('rx', '2');
+        anther.setAttribute('ry', '3');
+        anther.setAttribute('fill', '#FFD700');
+        anther.setAttribute('stroke', '#B8860B');
+        anther.setAttribute('stroke-width', '0.5');
+        stamens.appendChild(anther);
+      }
+      flowerGroup.appendChild(stamens);
+      
+      g.appendChild(flowerGroup);
+    }
+
+    return g;
+  }
+
+  function render() {
+    animationId++;
+    svg.innerHTML = '';
+    
+    svg.appendChild(createGradients());
+    svg.appendChild(createCantutaFlower());
+  }
+
+  // Event listeners
+  regenerateBtn.addEventListener('click', render);
+  petalsBtn.addEventListener('click', togglePetals);
+
+  // Inicializar
+  createFloatingPetals();
+  render();
+})();
+</script>
+</body>
+</html>
